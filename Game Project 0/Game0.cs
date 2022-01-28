@@ -4,12 +4,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game_Project_0
 {
-    public class Game1 : Game
+    public class Game0 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1()
+        private SpriteFont spriteFont;
+        private int trashLeft;
+
+
+
+        public Game0()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -18,6 +23,9 @@ namespace Game_Project_0
 
         protected override void Initialize()
         {
+            System.Random rand = new System.Random();
+
+
             // TODO: Add your initialization logic here
 
             base.Initialize();
