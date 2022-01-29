@@ -6,35 +6,56 @@ namespace Game_Project_0
 {
     public class Game0 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
 
         private SpriteFont spriteFont;
         private int trashLeft;
 
+        private PigeonSprite pigeon;
+        private TrashSprite[] trashCans;
+        private FoodSprite[] foodScraps;
+
+        private SpriteFont bangers; //Love this font tbh
 
 
+        /// <summary>
+        /// Constructs the game
+        /// </summary>
         public Game0()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
 
+        /// <summary>
+        /// Initializes the game
+        /// </summary>
         protected override void Initialize()
         {
             System.Random rand = new System.Random();
 
+            pigeon = new PigeonSprite();
 
-            // TODO: Add your initialization logic here
+            trashCans = new TrashSprite[]
+             {
+                new TrashSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height)),
+                new TrashSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height)),
+                new TrashSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height))
+             };
+       
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            foreach (var can in trashCans) can.LoadContent(Content);
+
+           // spriteFont = Content.Load<SpriteFont>("bangers");
             // TODO: use this.Content to load your game content here
         }
 
@@ -52,8 +73,14 @@ namespace Game_Project_0
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+          
+            foreach (var can in trashCans)
+            {
+                can.Draw(gameTime, spriteBatch);
+            }
 
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

@@ -1,4 +1,9 @@
-﻿Content/trash-can.png - created by dant-e of OpenGameArt.org (https://opengameart.org/content/trash-can) and released under the public domain
+﻿
+Content/Bangers/Bangers-Regular.ttf - Bangers font created by Vernon Adams, released on Google Fonts (https://fonts.google.com/specimen/Bangers) under the Open Font License
+
+
+
+Content/trash-can.png - created by dant-e of OpenGameArt.org (https://opengameart.org/content/trash-can) and released under the public domain
 Content/Pataepollo.png - created by Santoniche of OpenGameArt.org (https://opengameart.org/content/chicken-0) and released under CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
 Content/burger.png - created by Gobusto of OpenGameArt.org (https://opengameart.org/content/burger) and released under CC-BY-SA 3.0(https://creativecommons.org/licenses/by-sa/3.0/)
 Content/pizza-1.png - created by puddin of OpenGameArt.org (https://opengameart.org/content/pizza-sprite) and released under CC-BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/)
