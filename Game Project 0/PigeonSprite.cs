@@ -25,7 +25,6 @@ namespace Game_Project_0
 
         private BoundingCircle bounds; // = new BoundingRectangle(new Vector2(200 - 16, 200 - 16), 32, 32);
 
-      //  private Vector2 position = new Vector2(200, 200);
 
         private double animationTimer;
         private short animationFrame = 0;
@@ -53,7 +52,7 @@ namespace Game_Project_0
         public PigeonSprite(Vector2 position)
         {
             this.Position = position;
-            this.bounds = new BoundingCircle(position + new Vector2(8, 8), 8);
+            this.bounds = new BoundingCircle(position + new Vector2(200 - 18, 200 - 18), 18);
         }
 
 
@@ -96,7 +95,9 @@ namespace Game_Project_0
                 Direction = Direction.Right;
             }
 
-            
+            //Update the bounds
+            bounds.Center.X = Position.X + 32;
+            bounds.Center.Y = Position.Y + 32;
 
         }
 
