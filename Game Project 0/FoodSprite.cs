@@ -11,9 +11,7 @@ namespace Game_Project_0
 {
     public class FoodSprite
     {
-        public Texture2D[] _Texture = new Texture2D[3];
 
-        public int FoodType;
 
         private Vector2 position;
 
@@ -23,27 +21,34 @@ namespace Game_Project_0
         /// <summary>
         /// If the trash was eaten
         /// </summary>
-        public bool Eaten { get; set; } = false;
+        public bool Eaten { get; set; }
 
         /// <summary>
         /// Bounding volume of the sprite
         /// </summary>
         public BoundingCircle Bounds => bounds;
 
+        /// <summary>
+        /// Helps load each texture in a different location
+        /// </summary>
+        public Texture2D[] _Texture = new Texture2D[3];
 
+        /// <summary>
+        /// Constructs bounding circle for the new bundle of food scraps 
+        /// </summary>
+        /// <param name="position">position of trashcan to place the food</param>
         public FoodSprite(Vector2 position)
         {
-
-
+            
             this.position = position;
-            this.bounds = new BoundingCircle(position + new Vector2(16, 16), 16);
+            this.bounds = new BoundingCircle(position + new Vector2(22, 32), 10);
 
         }
 
         /// <summary>
         /// Loads the food sprite textures using the provided contentmanager
         /// </summary>
-        /// <param name="content"></param>
+        /// <param name="content">content manager</param>
         public void LoadContent(ContentManager content)
         {
             _Texture[0] = content.Load<Texture2D>("burger");
@@ -60,15 +65,14 @@ namespace Game_Project_0
         /// <param name="spriteBatch">The spritebatch to render with</param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+
             if (Eaten) return;
 
             if (_Texture is null) throw new InvalidOperationException("Texture must be loaded to render");
 
-   
-
-            spriteBatch.Draw(_Texture[0], new Vector2(position.X-20, position.Y-20), Color.White);
-            spriteBatch.Draw(_Texture[1], new Vector2(position.X + 20, position.Y + 20), Color.White);
-            spriteBatch.Draw(_Texture[2], new Vector2(position.X - 20, position.Y + 20), Color.White);
+            spriteBatch.Draw(_Texture[0], new Vector2(position.X -10, position.Y+10), Color.White);
+            spriteBatch.Draw(_Texture[1], new Vector2(position.X + 10, position.Y + 10), Color.White);
+            spriteBatch.Draw(_Texture[2], new Vector2(position.X - 10, position.Y + 10), Color.White);
 
         }
     }

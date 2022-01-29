@@ -25,6 +25,7 @@ namespace Game_Project_0
 
         private BoundingCircle bounds; // = new BoundingRectangle(new Vector2(200 - 16, 200 - 16), 32, 32);
 
+        private bool pressing = false;
 
         private double animationTimer;
         private short animationFrame = 0;
@@ -56,7 +57,10 @@ namespace Game_Project_0
         }
 
 
-
+        /// <summary>
+        /// Loads the texture file
+        /// </summary>
+        /// <param name="content">content that has file</param>
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("pigeon-SWEN");
@@ -75,26 +79,31 @@ namespace Game_Project_0
             {
                 Position += new Vector2(0, -1);
                 Direction = Direction.Up;
+                pressing = true;
             }
 
             if (keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S))
             {
                 Position += new Vector2(0, 1);
                 Direction = Direction.Down;
+                pressing = true;
             }
 
             if (keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A))
             {
                 Position += new Vector2(-1, 0);
                 Direction = Direction.Left;
+                pressing = true;
             }
 
             if (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D))
             {
                 Position += new Vector2(1, 0);
                 Direction = Direction.Right;
+                pressing = true;
             }
 
+            
             //Update the bounds
             bounds.Center.X = Position.X + 32;
             bounds.Center.Y = Position.Y + 32;
@@ -113,15 +122,16 @@ namespace Game_Project_0
             animationTimer += gametime.ElapsedGameTime.TotalSeconds;
 
             //Update animation frame
-            if (animationTimer > 0.3)
+            if (animationTimer > 0.3 && pressing)
             {
                 animationFrame++;
                 if (animationFrame > 2) animationFrame = 0;
                 animationTimer -= 0.3;
             }
+            if (animationTimer > 0.3 && pressing == false) animationTimer -= 0.3;
 
+            pressing = false;
 
-            //Draw the sprite
             var source = new Rectangle(animationFrame * 32, (int)Direction * 32, 32, 32);
 
             if (texture is null) throw new InvalidOperationException("Texture must be loaded to render");

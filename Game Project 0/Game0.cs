@@ -9,6 +9,7 @@ namespace Game_Project_0
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        
 
         private PigeonSprite pigeon;
 
@@ -21,8 +22,6 @@ namespace Game_Project_0
 
         private SpriteFont bangers;
 
-
-        private Texture2D ball;
 
 
         /// <summary>
@@ -80,9 +79,12 @@ namespace Game_Project_0
 
             bangers = Content.Load<SpriteFont>("bangers");
 
-            ball = Content.Load<Texture2D>("ball");
         }
 
+        /// <summary>
+        /// Updates the game contents
+        /// </summary>
+        /// <param name="gameTime">Total gametime</param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -114,27 +116,17 @@ namespace Game_Project_0
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draws the sprites onto the window
+        /// </summary>
+        /// <param name="gameTime">the measured game time</param>
         protected override void Draw(GameTime gameTime)
         {
 
             GraphicsDevice.Clear(Color.DarkSlateGray);
 
             spriteBatch.Begin();
-/*          
-            foreach (var can in trashCans)
-            {
-                can.Draw(gameTime, spriteBatch);
 
-                if (can.Emptied)
-                {
-                    foodScraps[].Draw(gameTime, spriteBatch);
-                }
-
-               var rect = new Rectangle((int)(can.Bounds.Center.X - can.Bounds.Radius),
-                                         (int)(can.Bounds.Center.Y - can.Bounds.Radius),
-                                         (int)can.Bounds.Radius, (int)can.Bounds.Radius);
-                spriteBatch.Draw(ball, rect, Color.White);
-            }*/
 
             trashCans[0].Draw(gameTime, spriteBatch);
             if(trashCans[0].Emptied) foodScraps[0].Draw(gameTime, spriteBatch);
@@ -147,27 +139,26 @@ namespace Game_Project_0
             trashCans[2].Draw(gameTime, spriteBatch);
             if (trashCans[2].Emptied) foodScraps[2].Draw(gameTime, spriteBatch);
 
-            //  foreach (var food in foodScraps) food.Draw(gameTime, spriteBatch,);
-
             pigeon.Draw(gameTime, spriteBatch);
 
 
             if (cansLeft > 0)
             {
-
+                //spriteBatch.DrawString(bangers, $"{gameTime.TotalGameTime.TotalSeconds}", new Vector2(2, 2), Color.Gold);
+                spriteBatch.DrawString(bangers, $"Destroy the cans for some snacks.", new Vector2(300, 0), Color.Gold);
             }
             else if(cansLeft <= 0 && foodLeft !=0)
             {
-
+                //spriteBatch.DrawString(bangers, $"{gameTime.TotalGameTime.TotalSeconds}", new Vector2(2, 2), Color.Gold);
+                spriteBatch.DrawString(bangers, $"Enjoy the feast.", new Vector2(300, 0), Color.Gold);
             }
             else
             {
-              //  spriteBatch.DrawString(bangers, $"All trash has been eatten!", new Vector2(100,100), Color.Gold);
-              //  spriteBatch.DrawString(bangers, $"Time : {gameTime.TotalGameTime:c}", new Vector2(100, 200), Color.Gold);
+               spriteBatch.DrawString(bangers, $"All trash has been eatten!", new Vector2(200,0), Color.Gold);
             }
 
 
-            spriteBatch.DrawString(bangers, $"{gameTime.TotalGameTime:c}", new Vector2(2, 2), Color.Gold);
+
 
             spriteBatch.End();
             base.Draw(gameTime);
