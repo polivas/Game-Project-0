@@ -96,7 +96,7 @@ namespace Game_Project_0
             }
 
             //Update the bounds
-            bounds.Center.X = Position.X + 32;
+            bounds.Center.X = Position.X + 30;
             bounds.Center.Y = Position.Y + 32;
 
         }
