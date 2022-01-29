@@ -9,18 +9,21 @@ namespace Game_Project_0
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private SpriteFont spriteFont;
-        private int cansLeft;
-        private int foodLeft;
 
         private PigeonSprite pigeon;
+
+        
+        private int cansLeft = 3;
+        private int foodLeft = 3;
+
         private TrashSprite[] trashCans;
         private FoodSprite[] foodScraps;
 
-        private SpriteFont bangers; //Love this font tbh
+        private SpriteFont bangers;
 
 
         private Texture2D ball;
+
 
         /// <summary>
         /// Constructs the game
@@ -43,11 +46,19 @@ namespace Game_Project_0
 
             trashCans = new TrashSprite[]
              {
-                new TrashSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height)),
-                new TrashSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height)),
-                new TrashSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height))
+                new TrashSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width -50 , (float)rand.NextDouble() * GraphicsDevice.Viewport.Height-50)),
+                new TrashSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width -50, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height-50)),
+                new TrashSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width -50, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height-50))
              };
-       
+
+
+
+            foodScraps = new FoodSprite[]
+            {
+                new FoodSprite(trashCans[0].Position),
+                new FoodSprite(trashCans[1].Position),
+                new FoodSprite(trashCans[2].Position)
+            };
 
             base.Initialize();
         }
@@ -63,8 +74,11 @@ namespace Game_Project_0
 
             foreach (var can in trashCans) can.LoadContent(Content);
 
-            // spriteFont = Content.Load<SpriteFont>("bangers");
+            foreach (var food in foodScraps) food.LoadContent(Content);
 
+
+
+            bangers = Content.Load<SpriteFont>("bangers");
 
             ball = Content.Load<Texture2D>("ball");
         }
@@ -83,39 +97,77 @@ namespace Game_Project_0
                 {
                     can.Emptied = true;
                     cansLeft--;
+
                 }
             }
 
-            //Pigeon eats spilled food
-
+            //Pigeon eats food
+            foreach (var food in foodScraps)
+            {
+                if (!food.Eaten && food.Bounds.CollidesWith(pigeon.Bounds))
+                {
+                    food.Eaten = true;
+                    foodLeft--;
+                }
+            }
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            GraphicsDevice.Clear(Color.DarkSlateGray);
 
             spriteBatch.Begin();
-          
+/*          
             foreach (var can in trashCans)
             {
                 can.Draw(gameTime, spriteBatch);
 
-                var rect = new Rectangle((int)(can.Bounds.Center.X - can.Bounds.Radius),
+                if (can.Emptied)
+                {
+                    foodScraps[].Draw(gameTime, spriteBatch);
+                }
+
+               var rect = new Rectangle((int)(can.Bounds.Center.X - can.Bounds.Radius),
                                          (int)(can.Bounds.Center.Y - can.Bounds.Radius),
                                          (int)can.Bounds.Radius, (int)can.Bounds.Radius);
                 spriteBatch.Draw(ball, rect, Color.White);
-            }
+            }*/
+
+            trashCans[0].Draw(gameTime, spriteBatch);
+            if(trashCans[0].Emptied) foodScraps[0].Draw(gameTime, spriteBatch);
+
+
+            trashCans[1].Draw(gameTime, spriteBatch);
+            if (trashCans[1].Emptied) foodScraps[1].Draw(gameTime, spriteBatch);
+
+
+            trashCans[2].Draw(gameTime, spriteBatch);
+            if (trashCans[2].Emptied) foodScraps[2].Draw(gameTime, spriteBatch);
+
+            //  foreach (var food in foodScraps) food.Draw(gameTime, spriteBatch,);
 
             pigeon.Draw(gameTime, spriteBatch);
 
-            var rect2 = new Rectangle((int)(pigeon.Bounds.Center.X - pigeon.Bounds.Radius),
-                         (int)(pigeon.Bounds.Center.Y - pigeon.Bounds.Radius),
-                         (int)pigeon.Bounds.Radius, (int)pigeon.Bounds.Radius);
 
-            spriteBatch.Draw(ball, rect2, Color.White);
+            if (cansLeft > 0)
+            {
 
+            }
+            else if(cansLeft <= 0 && foodLeft !=0)
+            {
+
+            }
+            else
+            {
+              //  spriteBatch.DrawString(bangers, $"All trash has been eatten!", new Vector2(100,100), Color.Gold);
+              //  spriteBatch.DrawString(bangers, $"Time : {gameTime.TotalGameTime:c}", new Vector2(100, 200), Color.Gold);
+            }
+
+
+            spriteBatch.DrawString(bangers, $"{gameTime.TotalGameTime:c}", new Vector2(2, 2), Color.Gold);
 
             spriteBatch.End();
             base.Draw(gameTime);

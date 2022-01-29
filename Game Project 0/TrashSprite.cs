@@ -12,7 +12,7 @@ namespace Game_Project_0
     public class TrashSprite
     {
 
-        private Vector2 position;
+        public Vector2 Position;
 
         private Texture2D texture;
 
@@ -34,8 +34,7 @@ namespace Game_Project_0
         /// <param name="position">The position of the sprite in the game</param>
         public TrashSprite(Vector2 position)
         {
-            this.position = position;
-            // this.bounds = new BoundingCircle(position + new Vector2(16, 16), 53, 32);//might be 53,32
+            this.Position = position;
             this.bounds = new BoundingCircle(position + new Vector2(53, 53), 32);
         }
 
@@ -58,7 +57,7 @@ namespace Game_Project_0
             if (Emptied) return;
 
             if (texture is null) throw new InvalidOperationException("Texture must be loaded to render");
-            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.Draw(texture, Position, Color.White);
         }
 
 
