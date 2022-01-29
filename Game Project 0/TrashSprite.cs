@@ -35,7 +35,7 @@ namespace Game_Project_0
         public TrashSprite(Vector2 position)
         {
             this.Position = position;
-            this.bounds = new BoundingCircle(position + new Vector2(53, 53), 32);
+            this.bounds = new BoundingCircle(position + new Vector2(53, 53), 35);
         }
 
         /// <summary>
