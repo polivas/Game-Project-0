@@ -12,9 +12,9 @@ namespace Game_Project_0
     public enum Direction
     {
         Down = 0,
-        Right = 1,
-        Up = 2,
-        Left = 3,
+        Right = 2,
+        Up = 3,
+        Left = 1,
     }
 
     public class PigeonSprite //150ms delay
@@ -23,10 +23,12 @@ namespace Game_Project_0
 
         private Texture2D texture;
 
-        private Vector2 position = new Vector2(200, 200);
+        private BoundingCircle bounds; // = new BoundingRectangle(new Vector2(200 - 16, 200 - 16), 32, 32);
+
+      //  private Vector2 position = new Vector2(200, 200);
 
         private double animationTimer;
-        private short animationFrame = 1;
+        private short animationFrame = 0;
 
         /// <summary>
         /// the direction of the pigeon
@@ -38,11 +40,24 @@ namespace Game_Project_0
         /// </summary>
         public Vector2 Position;
 
+        /// <summary>
+        /// Bounding volume of the sprite
+        /// </summary>
+        public BoundingCircle Bounds => bounds;
 
         /// <summary>
         /// Loads the pigeon texture
         /// </summary>
         /// <param name="content">The content manager to load with</param>
+
+        public PigeonSprite(Vector2 position)
+        {
+            this.Position = position;
+            this.bounds = new BoundingCircle(position + new Vector2(8, 8), 8);
+        }
+
+
+
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("pigeon-SWEN");
@@ -59,27 +74,29 @@ namespace Game_Project_0
 
             if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W))
             {
-                position += new Vector2(0, -1);
+                Position += new Vector2(0, -1);
                 Direction = Direction.Up;
             }
 
             if (keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S))
             {
-                position += new Vector2(0, 1);
+                Position += new Vector2(0, 1);
                 Direction = Direction.Down;
             }
 
             if (keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A))
             {
-                position += new Vector2(-1, 0);
+                Position += new Vector2(-1, 0);
                 Direction = Direction.Left;
             }
 
             if (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D))
             {
-                position += new Vector2(1, 0);
+                Position += new Vector2(1, 0);
                 Direction = Direction.Right;
             }
+
+            
 
         }
 
@@ -98,7 +115,7 @@ namespace Game_Project_0
             if (animationTimer > 0.3)
             {
                 animationFrame++;
-                if (animationFrame > 3) animationFrame = 1;
+                if (animationFrame > 2) animationFrame = 0;
                 animationTimer -= 0.3;
             }
 

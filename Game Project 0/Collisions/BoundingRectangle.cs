@@ -5,9 +5,11 @@ using Microsoft.Xna.Framework;
 
 namespace Game_Project_0.Collisions
 {
+    /// <summary>
+    /// A bounding rectangle for collision detection
+    /// </summary>
     public class BoundingRectangle
     {
-
         public float X;
 
         public float Y;

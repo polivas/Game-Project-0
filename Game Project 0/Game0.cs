@@ -10,7 +10,8 @@ namespace Game_Project_0
         private SpriteBatch spriteBatch;
 
         private SpriteFont spriteFont;
-        private int trashLeft;
+        private int cansLeft;
+        private int foodLeft;
 
         private PigeonSprite pigeon;
         private TrashSprite[] trashCans;
@@ -18,6 +19,8 @@ namespace Game_Project_0
 
         private SpriteFont bangers; //Love this font tbh
 
+
+        private Texture2D ball;
 
         /// <summary>
         /// Constructs the game
@@ -36,7 +39,7 @@ namespace Game_Project_0
         {
             System.Random rand = new System.Random();
 
-            pigeon = new PigeonSprite();
+            pigeon = new PigeonSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height));
 
             trashCans = new TrashSprite[]
              {
@@ -49,14 +52,21 @@ namespace Game_Project_0
             base.Initialize();
         }
 
+        /// <summary>
+        /// Loads content for the game
+        /// </summary>
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            pigeon.LoadContent(Content);
+
             foreach (var can in trashCans) can.LoadContent(Content);
 
-           // spriteFont = Content.Load<SpriteFont>("bangers");
-            // TODO: use this.Content to load your game content here
+            // spriteFont = Content.Load<SpriteFont>("bangers");
+
+
+            ball = Content.Load<Texture2D>("ball");
         }
 
         protected override void Update(GameTime gameTime)
@@ -64,7 +74,20 @@ namespace Game_Project_0
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            pigeon.Update(gameTime);
+
+            //Pigeon gets to trashcan
+            foreach (var can in trashCans)
+            {
+                if (!can.Emptied && can.Bounds.CollidesWith(pigeon.Bounds))
+                {
+                    can.Emptied = true;
+                    cansLeft--;
+                }
+            }
+
+            //Pigeon eats spilled food
+
 
             base.Update(gameTime);
         }
@@ -78,7 +101,21 @@ namespace Game_Project_0
             foreach (var can in trashCans)
             {
                 can.Draw(gameTime, spriteBatch);
+
+                var rect = new Rectangle((int)(can.Bounds.Center.X - can.Bounds.Radius),
+                                         (int)(can.Bounds.Center.Y - can.Bounds.Radius),
+                                         (int)can.Bounds.Radius, (int)can.Bounds.Radius);
+                spriteBatch.Draw(ball, rect, Color.White);
             }
+
+            pigeon.Draw(gameTime, spriteBatch);
+
+            var rect2 = new Rectangle((int)(pigeon.Bounds.Center.X - pigeon.Bounds.Radius),
+                         (int)(pigeon.Bounds.Center.Y - pigeon.Bounds.Radius),
+                         (int)pigeon.Bounds.Radius, (int)pigeon.Bounds.Radius);
+
+            spriteBatch.Draw(ball, rect2, Color.White);
+
 
             spriteBatch.End();
             base.Draw(gameTime);
