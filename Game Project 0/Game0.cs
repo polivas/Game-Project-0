@@ -138,6 +138,7 @@ namespace Game_Project_0
 
             Vector2 pos = new Vector2((250), (50));
             Vector2 pos2 = new Vector2((300), (400));
+            Vector2 pos3 = new Vector2((300), (300));
 
             GraphicsDevice.Clear(Color.LightSteelBlue);
 
@@ -145,16 +146,16 @@ namespace Game_Project_0
 
             spriteBatch.Draw(title, pos , Color.White);
 
-            trashCans[0].Draw(gameTime, spriteBatch);
-            if(trashCans[0].Emptied) foodScraps[0].Draw(gameTime, spriteBatch);
+            //trashCans[0].Draw(gameTime, spriteBatch);
+          //  if(trashCans[0].Emptied) foodScraps[0].Draw(gameTime, spriteBatch);
 
 
-            trashCans[1].Draw(gameTime, spriteBatch);
-            if (trashCans[1].Emptied) foodScraps[1].Draw(gameTime, spriteBatch);
+          //  trashCans[1].Draw(gameTime, spriteBatch);
+          //  if (trashCans[1].Emptied) foodScraps[1].Draw(gameTime, spriteBatch);
 
 
-            trashCans[2].Draw(gameTime, spriteBatch);
-            if (trashCans[2].Emptied) foodScraps[2].Draw(gameTime, spriteBatch);
+           // trashCans[2].Draw(gameTime, spriteBatch);
+           // if (trashCans[2].Emptied) foodScraps[2].Draw(gameTime, spriteBatch);
 
             pigeon.Draw(gameTime, spriteBatch);
 
@@ -173,6 +174,10 @@ namespace Game_Project_0
             
             spriteBatch.Draw(border, pos2 - new Vector2(20,20), Color.White);
             spriteBatch.DrawString(bangers, $"Press ESC to Exit", pos2, Color.Black);
+
+            spriteBatch.Draw(border, pos3 - new Vector2(20, 20), Color.White);
+            spriteBatch.DrawString(bangers, $"Use Arrow Keys", pos3 + new Vector2(10, -5), Color.Black);
+            spriteBatch.DrawString(bangers, $"to Walk Around", pos3 + new Vector2(0, 20), Color.Black);
 
             spriteBatch.End();
             base.Draw(gameTime);
