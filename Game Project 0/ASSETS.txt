@@ -1,7 +1,9 @@
 ﻿
 Content/Bangers/Bangers-Regular.ttf - Bangers font created by Vernon Adams, released on Google Fonts (https://fonts.google.com/specimen/Bangers) under the Open Font License
 
-
+Content/Border - created by Paulina Olivas (Me) 
+Content/TitleSceen - created by Paulina Olivas (Me) 
+Content/CloudSprite - created by Paulina Olivas (Me) 
 
 Content/trash-can.png - created by dant-e of OpenGameArt.org (https://opengameart.org/content/trash-can) and released under the public domain
 Content/Pataepollo.png - created by Santoniche of OpenGameArt.org (https://opengameart.org/content/chicken-0) and released under CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)

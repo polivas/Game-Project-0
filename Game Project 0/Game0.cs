@@ -8,8 +8,9 @@ namespace Game_Project_0
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private double animationTimer;
+        private short animationFrame = 0;
 
-        
 
         private PigeonSprite pigeon;
 
@@ -22,7 +23,9 @@ namespace Game_Project_0
 
         private SpriteFont bangers;
 
-
+        private Texture2D title;
+        private Texture2D border;
+        private Texture2D clouds;
 
         /// <summary>
         /// Constructs the game
@@ -40,6 +43,12 @@ namespace Game_Project_0
         protected override void Initialize()
         {
             System.Random rand = new System.Random();
+
+
+            title = new Texture2D(graphics.GraphicsDevice, 331, 101);
+            border = new Texture2D(graphics.GraphicsDevice, 250, 82);
+
+            clouds = new Texture2D(graphics.GraphicsDevice, 96, 32);
 
             pigeon = new PigeonSprite(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height));
 
@@ -70,6 +79,10 @@ namespace Game_Project_0
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             pigeon.LoadContent(Content);
+
+            title = Content.Load<Texture2D>("TitleSceen");
+            border = Content.Load<Texture2D>("Border");
+            clouds = Content.Load<Texture2D>("CloudSprite");
 
             foreach (var can in trashCans) can.LoadContent(Content);
 
@@ -123,10 +136,14 @@ namespace Game_Project_0
         protected override void Draw(GameTime gameTime)
         {
 
-            GraphicsDevice.Clear(Color.DarkSlateGray);
+            Vector2 pos = new Vector2((250), (50));
+            Vector2 pos2 = new Vector2((300), (400));
+
+            GraphicsDevice.Clear(Color.LightSteelBlue);
 
             spriteBatch.Begin();
 
+            spriteBatch.Draw(title, pos , Color.White);
 
             trashCans[0].Draw(gameTime, spriteBatch);
             if(trashCans[0].Emptied) foodScraps[0].Draw(gameTime, spriteBatch);
@@ -141,24 +158,21 @@ namespace Game_Project_0
 
             pigeon.Draw(gameTime, spriteBatch);
 
-
-            if (cansLeft > 0)
+            //CLOUD STUFF
+            animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            if (animationTimer > 0.3 )
             {
-                //spriteBatch.DrawString(bangers, $"{gameTime.TotalGameTime.TotalSeconds}", new Vector2(2, 2), Color.Gold);
-                spriteBatch.DrawString(bangers, $"Destroy the cans for some snacks.", new Vector2(300, 0), Color.Gold);
+                animationFrame++;
+                if (animationFrame > 2) animationFrame = 0;
+                animationTimer -= 0.3;
             }
-            else if(cansLeft <= 0 && foodLeft !=0)
-            {
-                //spriteBatch.DrawString(bangers, $"{gameTime.TotalGameTime.TotalSeconds}", new Vector2(2, 2), Color.Gold);
-                spriteBatch.DrawString(bangers, $"Enjoy the feast.", new Vector2(300, 0), Color.Gold);
-            }
-            else
-            {
-               spriteBatch.DrawString(bangers, $"All trash has been eatten!", new Vector2(200,0), Color.Gold);
-            }
-
-
-
+            if (animationTimer > 0.3) animationTimer -= 0.3;
+            var source = new Rectangle(animationFrame * 32, 0 , 32, 32);
+            spriteBatch.Draw(clouds, pos2 - new Vector2(50, 20), source, Color.White);
+            spriteBatch.Draw(clouds, pos2 + new Vector2(220, 20), source, Color.White);
+            
+            spriteBatch.Draw(border, pos2 - new Vector2(20,20), Color.White);
+            spriteBatch.DrawString(bangers, $"Press ESC to Exit", pos2, Color.Black);
 
             spriteBatch.End();
             base.Draw(gameTime);
